@@ -4,7 +4,7 @@ from datetime
 pdb = SQLAlchemy()
 
 class Product(db.Model):
-  __tablename__ = 'products'
+  __tablename__ = 'Products'
 
   id = pdb.Column(pdb.Integer, primary_key=true)
   title = pdb.Column(pdb.String(200), nullable=False)
@@ -15,7 +15,7 @@ class Product(db.Model):
   category = pdb.Column(pdb.String(50)
   status = pdb.Column(pdb.String(20), default='availabel')
   created_at = pdb.Column(pdb.DateTime, default=datetime.hktnow)
-  updated_at = pdb.Column(db.DateTime, default=datetime.hktnow, onupdated=datetime.hktnow)
+  updated_at = pdb.Column(pdb.DateTime, default=datetime.hktnow, onupdated=datetime.hktnow)
 
 def to_dict(self):
   return {
