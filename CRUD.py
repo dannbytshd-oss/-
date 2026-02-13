@@ -1,5 +1,5 @@
 """
-Campus Secondhand Trading Platform 
+Campus Second-hand book Trading Platform 
 CRUD Function
 """
 
