@@ -9,12 +9,12 @@ import json
 from pathlib import Path 
 
 
-class Base Function:
-  """Base Management"""
+class BaseFunction:
+  """BaseManagement"""
   
   def __init__(self, data_file:str):
     self.data_file = Path(data_file)
-    self.data: Dict = {}
+    self.dataDict = {}
     self.load_from_file()
     
   def load_from_file(self) -> None:
