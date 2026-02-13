@@ -11,20 +11,20 @@ class Seller:
     """Add A New Seller To The Seller List"""
     try:
       self.seller__seller_list.append(seller) 
-      print(f"✅Adding New Seller Is Successed":{seller.username}")
+      print(f"✅Adding New Seller Is Successed.\n":{seller.username}")
         return seller
     except Error:
-      print(f"❌Adding New Seller Is Failed":{seller.username}")
+      print(f"❌Adding New Seller Is Failed.\n":{seller.username}")
       return None
 
   def remove_seller(self, seller)
     """Remove A Seller From The Seller List"""
     try:
       self.seller__seller_list.append(seller)
-      print(f"✅Remove A Seller Is Successed":{seller.username}")
+      print(f"✅Remove A Seller Is Successed.\n":{seller.username}")
       return True
     except Error:
-      print(f"❌Remove A Seller Is Failed":{seller.username}")
+      print(f"❌Remove A Seller Is Failed.\n":{seller.username}")
       return None
       
 class Buyer:
@@ -40,19 +40,19 @@ class Buyer:
     """Add A New Buyer From The Buyer List"""
     try:
       self.buyer__buyer_list.append(buyer) 
-      print(f"✅Adding New buyer Is Successed":{buyer.username}")
+      print(f"✅Adding New buyer Is Successed.\n":{buyer.username}")
         return buyer
     except Error:
-      print(f"❌Adding Newbuyer Is Failed":{buyer.username}")
-      return None
+      print(f"❌Adding Newbuyer Is Failed.\n":{buyer.username}")
+      return False
 
   def remove_buyer(self, buyer)
     """Remove A Buyer From The Buyer List"""
     try:
       self.seller__seller_list.append(buyer)
-      print(f"✅Remove A Buyer Is Successed":{buyer.username}")
+      print(f"✅Remove A Buyer Is Successed.\n":{buyer.username}")
       return True
     except Error:
-      print(f"❌Remove A Buyer Is Failed":{buyer.username}")
-      return None
+      print(f"❌Remove A Buyer Is Failed.\n":{buyer.username}")
+      return False
   
