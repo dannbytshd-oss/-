@@ -21,7 +21,7 @@ class Seller:
     """Remove A Seller From The Seller List"""
     try:
       self.seller__seller_list.append(seller)
-      print(f"✅ Remove A Seller Is Successed":{seller.username}")
+      print(f"✅Remove A Seller Is Successed":{seller.username}")
       return True
     except Error:
       print(f"❌Remove A Seller Is Failed":{seller.username}")
@@ -50,7 +50,7 @@ class Buyer:
     """Remove A Buyer From The Buyer List"""
     try:
       self.seller__seller_list.append(buyer)
-      print(f"✅ Remove A Buyer Is Successed":{buyer.username}")
+      print(f"✅Remove A Buyer Is Successed":{buyer.username}")
       return True
     except Error:
       print(f"❌Remove A Buyer Is Failed":{buyer.username}")
