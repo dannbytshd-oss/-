@@ -1,10 +1,10 @@
 class Seller:
-  def__init__(self, username, user_id, email):
+  def __init__(self, username, user_id, email):
     self.name = name
     self.user_id = user_id
     self.email = email
 
-  def__init__(self)
+  def __init__(self)
     self.__seller_list = []
 
   def add_seller(self, seller)
@@ -28,12 +28,12 @@ class Seller:
       return None
       
 class Buyer:
-  def__init__(self, username, user_id, email):
+  def __init__(self, username, user_id, email):
     self.name = name
     self.user_id = user_id
     self.email = email
 
-  def__init__(self)
+  def __init__(self)
     self.__buyer_list = []
 
   def add_buyer(self, buyer)
