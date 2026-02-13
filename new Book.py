@@ -18,7 +18,7 @@ class book:
         return buyer
     except Error:
       print(f"❌Adding New Book Is Failed":{book.book_id}")
-      return None
+      return False
 
   def remove_book(self, book)
     """Remove A Book From The Book List"""
@@ -28,4 +28,4 @@ class book:
       return True
     except Error:
       print(f"❌Remove A Book Is Failed":{book.book_id}")
-      return None
+      return False
