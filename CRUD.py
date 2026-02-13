@@ -1,16 +1,15 @@
 """
-Campus Second-Hand Book Trading Platform 
+Campus Second-Hand Book Trading Platform (COMP 2090SEF Group Assignment)
 CRUD Function
 """
 
 from tying improt Optional, List, Dict
 from datetime import datetime
-from entity import User, Book, Transaction, UserRole, BookStatus
 import json
 from pathlib import Path 
 
 
-class Base Management:
+class Base Function:
   """Base Management"""
   
   def __init__(self, data_file:str):
@@ -22,27 +21,27 @@ class Base Management:
     """Load From File"""
     if self.data_file.exists():
       try:
-        with open(self.data_file,'r',encoding='utf-8) as f:
+        with open(self.data_file,'r', encoding='utf-8) as f:
           content=f.read()
           if content:
             self.data= json.loads(content)
           print(f"✅The Data Has Been loaded")
-        except Exception as e :
-        print(f"❌Loading Failed: {e}")
-        self.data = {}
+        except Exception as e:
+          print(f"❌Loading Failed: {e}")
+          self.data = {}
       
     def save_to_file(self)->None:
       """Save Data To File"""
       try:
         with open(self.data_file, 'w', encoding='utf-8) as f;
           json.dump(self.data, f,ensure_ascii=False. indent=2, default=str)
-          print(f"✅The Data has Been Loaded")
+          print(f"✅The Data Has Been Loaded")
       except Exception as e:
         print (f"❌Loading Failed: {e}")
       
         
-class UserManagement:
-  """User Management"""
+class User:
+  """User """
 
   def __init__(self, data_file: str="users.json")
     super().__init__(dat_file)
@@ -115,7 +114,7 @@ class UserManagement:
           
       user_data["updated_at"] =datatime.now().isoformat()
       self.save_to_file()
-      print(f"✅Updated User ID {user_id} is Successed")
+      print(f"✅Updated User ID {user_id} Is Successed")
       return True
     except Exception as e:
       print(f"❌Updated User ID Is Failed:{e}")
@@ -146,14 +145,14 @@ class UserManagement:
 
 class BookManagement:
   """Book Management"""
-  def __init__(self,data_file:str="book.json"):
+  def __init__(self,data_file:str="books.json"):
     super().__init__(data_file)
     if "books" not in self.data:
       self.data["books"]={}
 
   def create(self,seller_id:str,title:str,description:str,
             category:str,price:float,image_url:str="")->Optional[Product}:
-    """Add New Product"""
+    """Add New Book"""
     try:
       if price<=0:
         print("❌The Price Of The Book Must Be Greater Than 0")
@@ -161,7 +160,7 @@ class BookManagement:
 
       book = Book(seller_id,description,category,price)
 
-      self.data["roducts"][book.book_id]={
+      self.data["books"][book.book_id]={
         "book_id":book.book_id,
         "seller_id":book.seller_id,
         "titil":book.title,
@@ -227,10 +226,10 @@ class BookManagement:
 
       book_data["updated_at"]=datetime.now().isoformat()
       self.save_to_file()
-      print(f"✅Updated Book {book_id} is successed")
+      print(f"✅Updated Book {book_id} Is Successed")
       return True
     except Exception as e:
-      print(f"❌Updated Book {book_id} is failed")
+      print(f"❌Updated Book {book_id} Is Failed")
       return False
 
   def delete(self, book_id:str)->bool:
