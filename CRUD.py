@@ -79,7 +79,7 @@ class UserManagement:
       return None
       
   def read(self,user_id;str->Option[User}:
-    "Reading User"""
+    "Read User"""
     if user_id not in self.data["user"]:
       print(f"❌User ID Is Not Found":{user.user_id}")
       return None
@@ -194,13 +194,13 @@ class BookManagement:
       book_data["price"]
     )
     book.book_id=book_data["book_id"]
-    Book.status=ProductStatus(prod_data["status"])
+    Book.status=BookStatus(prod_data["status"])
     Book.created_at=datatime.fromisoformat(book_data["created_at"])
     Book.updated_at=datatime.fromisoformat(book_data["updated_at"])  
     return product
 
-  def update(self,product_id:str,**kwargs)->bool:
-    """update Product"""
+  def update(self,book_id:str,**kwargs)->bool:
+    """Update Book"""
     if book_id not in self.data["books"]:
       print(f"❌The Book is not found Book ID: {book_id}")
       return False
@@ -217,9 +217,9 @@ class BookManagement:
 
           if key=="status":
             statis_map={
-              "Active":ProductStatus.ACTIVE.value,
-              "Sold":ProductStatus.SOLD.value, 
-              "Removed":ProductStatus.REMOVED.value,
+              "Active":BookStatus.ACTIVE.value,
+              "Sold":BookStatus.SOLD.value, 
+              "Removed":BookStatus.REMOVED.value,
             }
             book_data[key]=value
           else:
@@ -269,21 +269,118 @@ class BookManagement:
            if keyword_lower in p.title.lower() or keyword_lower in p.category.lower()]
 
 
-class TransactionManagement:
-  """Transaction Management"""
-  def __init__(self,data_file:str="tramsactopms.jspm"):
+class OrderManagement:
+  """Order Management"""
+  def __init__(self,data_file:str="orders.jspm"):
     super().__init__(data_file)
-    if "transactions" not in self.data:
-      self.data["transactions"]={}
+    if "orders" not in self.data:
+      self.data["orders"]={}
 
   def create(seld,buyer_id:str,seller_id:str,book_id: str,
-            amount:float)->Optional[Transaction]:
-      """Add New Transaction"""
+            amount:float)->Optional[Order]:
+      """Add New Order"""
       try:
-        if amout<=0:
-          promt
-    
+        if amount<=0:
+          print("❌The Order Amount Must Be Greater Than 0")
+          return None
 
+        order=Order(buyer_id,seller_id,book_id,amount)
+
+        self.data["order"][order.order_id]={
+        "order_id"order.order_id,
+        "buyer_id":order.buyer_id,
+        "seller_id":order.seller_id,
+        "book_id":order.book_id,
+        "amount":order.amount,
+        "status":order.status,  
+        "created_at":order.created_at.isoformat(),
+        "updated_at":order.updated_at.isoformat(),
+        }
+        self.save_to_file()
+        print(f"✅The Order Is successed:${amount}")
+        return order
+      except Exception as e:
+        print(f"❌The Order Is Failed:${amount}")
+        return None
+
+  def read(self,order_id:str)->Optional[Order]
+    """Read Order"""
+    if transsaction_id not in self.data["orders"]
+      print(f"❌Order Is Not Found Order ID: {order_id}")
+      return None
+
+    order_data=self.data["orders"][order_id]
+    order=Order(
+      order_data["buyer_id"]
+      order_data["seller_id"]
+      order_data["product_id"]
+      order_data["amount"]
+    )
+    order.order_id=order_data["order_id"]
+    order.status=order_data["status"]
+    order.created_at=order_data["created_at"]
+    order.updated_at=order_data["updated_at"]
+    return order
+
+  def update(self, order_id:str,**kwargs)->bool:
+    """Update Order Status"""
+    if order_id not in self.data["orders"]:
+      print(f"❌The Order Is Not Found Order ID: {order_id}")
+      return False
+
+    try:
+      order_data=self.data["order"]:
+      
+      allowed_fields = ["status"]
+      for key, value in kwargs.items():
+        if key in allowed_fields:
+          order_data[key]=value
+
+      order_data["updated_at"]=datetime.now().isoformat()
+      self.save_to_file()
+      print(f"✅Update Order {order_id} Is Successed")
+      return True
+    except Exception as e:
+      print(f"❌Update Order {order_id} Is Failed")
+      return False
+
+  def delete(self, book_id:str)->bool:
+    """Delete Order"""
+    if order_id not in self.data["orders"]:
+      print(f"❌The Book Is Not Found Order ID: {order_id}")
+      return False
+
+    try:
+      del self.data["orders"][order_id]
+      self.save_to_file()
+      print(f"✅Delet Order {title} Is Successed")
+      return True
+    except Exception as e:
+      print(f"❌Delet Order Is Failed: {e}")
+      return False
+
+  def list_all(self)->List[Order]:
+    """List All Orders"""
+    orders=[]
+    for order_id in self.data["orders"]:
+        order=self.read(order_id)
+        if orders:
+          order.append(orders)
+    return orders
+  
+  def list_by_seller(self,buyer_id:str)->List[Order]:
+    """List The Buyer Orders"""
+    return[t for t in self.list_all() if t.buyer_id==buyer_id]
+
+  def search(self,keyword:str)->List[Book]:
+    """Search Seller Order"""
+    return[t for t in self.list_all() if t.seller_id==seller_id]
+          
+          
+
+   
+
+  
 
 
       
