@@ -1,17 +1,17 @@
 """
-Campus Second-hand book Trading Platform 
+Campus Second-Hand Book Trading Platform 
 CRUD Function
 """
 
 from tying improt Optional, List, Dict
 from datetime import datetime
-from entity import User, Product, Transaction, Review, UserRole, ProductStatus
+from entity import User, Book, Transaction, UserRole, BookStatus
 import json
 from pathlib import Path 
 
 
 class Base Management:
-  """ Base Management  """
+  """Base Management"""
   
   def __init__(self, data_file:str):
     self.data_file = Path(data_file)
@@ -19,43 +19,43 @@ class Base Management:
     self.load_from_file()
     
   def load_from_file(self) -> None:
-    """   """
+    """Load From File"""
     if self.data_file.exists():
       try:
-        with open(self.dat_file,'r',encoding='utf-8) as f:
+        with open(self.data_file,'r',encoding='utf-8) as f:
           content=f.read()
           if content:
             self.data= json.loads(content)
-          print(f"✅The data has been loaded")
+          print(f"✅The Data Has Been loaded")
         except Exception as e :
         print(f"❌Loading Failed: {e}")
         self.data = {}
       
     def save_to_file(self)->None:
-      """Save Data To Archive"""
+      """Save Data To File"""
       try:
         with open(self.data_file, 'w', encoding='utf-8) as f;
           json.dump(self.data, f,ensure_ascii=False. indent=2, default=str)
-          print(f"✅The data has been loaded")
+          print(f"✅The Data has Been Loaded")
       except Exception as e:
         print (f"❌Loading Failed: {e}")
       
         
-class UserManager:
-  """ """
+class UserManagement:
+  """User Management"""
 
   def __init__(self, data_file: str="users.json")
     super().__init__(dat_file)
     if "users" not in self.data:
     self.data["users"]={}
 
-  def create(self,username: str, email:str, phone: str,
+  def create(self,username: str, email:str,
            role: str = "Buyer") -> Optional[User}:
     """Adding New User"""
     try:
       for user_data in self.data["user"].Values():
         if user_data["email"]==email:
-          print(f"❌The email of {email} adready exists")
+          print(f"❌The Email Of {email} Adready Exists")
           return None
           
       role_map={"Buyer":UserRole.BBYER,"Seller":UserRole.SELLER,"Admin":UserRole.ADMIN}
@@ -72,22 +72,21 @@ class UserManager:
         "updated_at":user.updated_at.isoformat()
       }
       self.save_to.file()
-      print(f"✅Adding new user successed":{user.username}")
+      print(f"✅Adding New User Successed":{user.username}")
       return user
     except Exception as e:
-      print(f"❌Adding new user failed":{user.username}")
+      print(f"❌Adding New User Failed":{user.username}")
       return None
       
   def read(self,user_id;str->Option[User}:
     "Reading User"""
     if user_id not in self.data["user"]:
-      print(f"❌User ID is not found":{user.user_id}")
+      print(f"❌User ID Is Not Found":{user.user_id}")
       return None
     user_data=self data["users"][user_id]
     user=User(
       user_data["username"],
       user_data["email"],
-      user_data["phone"],
       UserRole(user_data["role"])
     )
     user.user_id=user_data["user_id"]
@@ -98,7 +97,7 @@ class UserManager:
   def update(seld,user_id:str,**kwargs)->bool
     """Update user"""
     if user_id not in self.data["users"]:
-      print(f"❌User is not found User ID: {user_id}")
+      print(f"❌User Is Not Found User ID: {user_id}")
       return False
     
     try:
@@ -119,20 +118,20 @@ class UserManager:
       print(f"✅Updated User ID {user_id} is Successed")
       return True
     except Exception as e:
-      print(f"❌Updated User ID is Failed:{e}")
+      print(f"❌Updated User ID Is Failed:{e}")
       return False
 
   def delete(self,user_id: str)->bool:
     """Delete User"""
     if user_id not in self.data["users"]
-      print(f"❌User is not found User ID: {user_id}")
+      print(f"❌User Is Not Found User ID: {user_id}")
       return False
 
     try:
       username=self.data["users"][user_id]["username"]
       del self.data["users"][user_id]
       self.save_to_file()
-      print(f"✅Delete User {username} is Successed")
+      print(f"✅Delete User {username} Is Successed")
       return False
 
   def list_all(self)->List[User]:
@@ -145,77 +144,75 @@ class UserManager:
     return users
 
 
-class ProductManager:
-  """Product Manager"""
-  def __init__(self,data_file:str="products.json"):
+class BookManagement:
+  """Book Management"""
+  def __init__(self,data_file:str="book.json"):
     super().__init__(data_file)
-    if "products" not in self.data:
-      self.data["products"]={}
+    if "books" not in self.data:
+      self.data["books"]={}
 
   def create(self,seller_id:str,title:str,description:str,
             category:str,price:float,image_url:str="")->Optional[Product}:
     """Add New Product"""
     try:
       if price<=0:
-        print("❌The price of the product must be greater than 0")
+        print("❌The Price Of The Book Must Be Greater Than 0")
         return None
 
-      product = Product(seller_id,description,category,price,image_url)
+      book = Book(seller_id,description,category,price)
 
-      self.data["roducts"][product.product_id]={
-        "product_id":product.product_id,
-        "seller_id":product.seller_id,
-        "titil":product.title,
-        "description":product.description,
-        "category":product.category,
-        "price":product.price,
-        "image_url":product.image_url,
-        "status":product.status,  
-        "created_at":product.created_at.isoformat(),
-        "updated_at":product.updated_at.isoformat(),
+      self.data["roducts"][book.book_id]={
+        "book_id":book.book_id,
+        "seller_id":book.seller_id,
+        "titil":book.title,
+        "description":book.description,
+        "category":book.category,
+        "price":book.price,
+        "status":book.status,  
+        "created_at":book.created_at.isoformat(),
+        "updated_at":book.updated_at.isoformat(),
       }
       self.save_to_file()
-      print(f"✅Add New Product is successed:{product.title}")
-      return product:
+      print(f"✅Add New Book Is Successed:{book.title}")
+      return book:
     except Exception as e :
-      print(f"❌Add New Product is failed:{product.title}")
+      print(f"❌Add New Book Is Failed:{book.title}")
       return None
 
-  def read(self,product_id:str)->Optional[Product]
-    """Reading Product"""
-    if product_id not in self.data["products"]:
-      print(f"❌The Product is not found Product ID: {product_id}")
+  def read(self,book_id:str)->Optional[Book]
+    """Read Book"""
+    if product_id not in self.data["books"]:
+      print(f"❌The Book is not found book ID: {book_id}")
       return None
 
-    prod_data=self.data["products"][product_id]
-    product=Product(
-      prod_data["seller_id"],
-      prod_data["title"],
-      prod_data["description"],
-      prod_data["category"],
-      prod_data["price"],
-      prod_data.get["image_url",""]
+    book_data=self.data["books"][book_id]
+    book=Book(
+      book_data["seller_id"],
+      book_data["title"],
+      book_data["description"],
+      book_data["category"],
+      book_data["price"]
     )
-    product.product_id=  prod_data["product_id"]
-    Product.status=ProductStatus(prod_data["status"])
-    Product.created_at=datatime.fromisoformat(prod_data["created_at"])
-    Product.updated_at=datatime.fromisoformat(prod_data["updated_at"])  
+    book.book_id=book_data["book_id"]
+    Book.status=ProductStatus(prod_data["status"])
+    Book.created_at=datatime.fromisoformat(book_data["created_at"])
+    Book.updated_at=datatime.fromisoformat(book_data["updated_at"])  
     return product
 
   def update(self,product_id:str,**kwargs)->bool:
     """update Product"""
-    if product_id not in self.data["product"]:
-      print(f"❌The Product is not found Product ID: {product_id}")
+    if book_id not in self.data["books"]:
+      print(f"❌The Book is not found Book ID: {book_id}")
       return False
 
     try:
-      prod_data=self.data["products"][product_id]
+      book_data=self.data["books"][book_id]
 
       allowed_fields = ["title","description","category","price","status"]
       for key, value in kwargs.items():
         if key in allowed_fields:
           if key=="price" and value<=0:
-            print("❌The price of the product must be greater than 0")
+            print("❌The Price Of The Book Must Be Greater Than 0")
             return False
 
           if key=="status":
@@ -224,48 +221,48 @@ class ProductManager:
               "Sold":ProductStatus.SOLD.value, 
               "Removed":ProductStatus.REMOVED.value,
             }
-            prod_data[key]=value
+            book_data[key]=value
           else:
-            prod_data[key]=value
+            book_data[key]=value
 
-      prod_data["updated_at"]=datetime.now().isoformat()
+      book_data["updated_at"]=datetime.now().isoformat()
       self.save_to_file()
-      print(f"✅Updated Product {product_id} is successed")
+      print(f"✅Updated Book {book_id} is successed")
       return True
     except Exception as e:
-      print(f"❌Updated Product {product_id} is failed")
+      print(f"❌Updated Book {book_id} is failed")
       return False
 
-  def delete(self, product_id:str)->bool:
-    """Delete Product"""
-    if product_id not in self.data["products"]:
-      print(f"❌The Product is not found Product ID: {product_id}")
+  def delete(self, book_id:str)->bool:
+    """Delete Book"""
+    if book_id not in self.data["books"]:
+      print(f"❌The Book is not found Book ID: {book_id}")
       return False
 
     try:
-      title=self.data["products"][product_id]["title"]
-      del self.data["prodcuts"][product_id]
+      title=self.data["books"][book_id]["title"]
+      del self.data["books"][book_id]
       self.save_to_file()
-      print(f"❌Delet Product {title} is successed")
-      return False
+      print(f"✅Delet Book {title} is successed")
+      return True
     except Exception as e:
-      print(f"❌Delet Product is failed {title}")
+      print(f"❌Delet Book is failed: {r}")
       return False
 
-  def list_all(self)->List[Product]:
-    """List All Products"""
-    products=[]
-    for product_id in self.data["products"]:
-        product=self.read(product_id)
-        if product:
-          procut.append(product)
-    return products
+  def list_all(self)->List[Book]:
+    """List All Books"""
+    books=[]
+    for Book_id in self.data["books"]:
+        book=self.read(book_id)
+        if book:
+          book.append(book)
+    return book
   
   def list_by_seller(self,seller_id:str)->List[Product]:
-    """List Products From A Specified Seller"""
+    """List Books From A Specified Seller"""
     return[p for p in self.list_all() if p.seller_id==seller_id]
 
-  def search(self,keyword:str)->List[Product]:
+  def search(self,keyword:str)->List[Book]:
     """Search For Products"""
     keyword_lower=keyword.lower()
     return[p for p in self.list_all() 
@@ -279,7 +276,7 @@ class TransactionManagement:
     if "transactions" not in self.data:
       self.data["transactions"]={}
 
-  def create(seld,buyer_id:str,seller_id:str,product_id: str,
+  def create(seld,buyer_id:str,seller_id:str,book_id: str,
             amount:float)->Optional[Transaction]:
       """Add New Transaction"""
       try:
