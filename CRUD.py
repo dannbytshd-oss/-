@@ -5,13 +5,13 @@ CRUD Function
 
 from tying improt Optional, List, Dict
 from datetime import datetime
-from entity import User, Product, Trnsaction, Review, User Role, ProductStatus
+from entity import User, Product, Transaction, Review, UserRole, ProductStatus
 import json
 from pathlib import Path 
 
 
-class BaseManger:
-  """    """
+class Base Management:
+  """ Base Management  """
   
   def __init__(self, data_file:str):
     self.data_file = Path(data_file)
@@ -50,7 +50,7 @@ class UserManager:
     self.data["users"]={}
 
   def create(self,username: str, email:str, phone: str,
-           role: sstr = "Buyer") -> Optional[User}:
+           role: str = "Buyer") -> Optional[User}:
     """Adding New User"""
     try:
       for user_data in self.data["user"].Values():
@@ -61,13 +61,12 @@ class UserManager:
       role_map={"Buyer":UserRole.BBYER,"Seller":UserRole.SELLER,"Admin":UserRole.ADMIN}
       user_role=role_map.get(role,UserRole.Buyer)
 
-      user=User(username, email, phone, user_role)
+      user=User(username, email, user_role)
 
       self.data["users"][user.user_id]={
         "user_id":user.user_id,
         "username":user.username,
         "email":user.email,
-        "phone":user.phone,
         "role":user.role.value,
         "created_at":user.creataed_at.isoformat(),
         "updated_at":user.updated_at.isoformat()
@@ -89,10 +88,11 @@ class UserManager:
       user_data["username"],
       user_data["email"],
       user_data["phone"],
-      UserRole(user_dat["role"])
+      UserRole(user_data["role"])
     )
     user.user_id=user_data["user_id"]
-    user.created_at=datatime.from(user_data["cread_at"])
+    user.created_at=datatime.from(user_data["created_at"])
+    user.updated_at=datatime.from(user_data["updated_at"])
     return user
 
   def update(seld,user_id:str,**kwargs)->bool
@@ -104,7 +104,7 @@ class UserManager:
     try:
       user_data = self.data["users"]{user_id]
                                    
-      allowed_fileds=["usermane","email","phone", "role)"]
+      allowed_fileds=["usermane","email","phone"]
       for key, value in kwargs.items():
         if key in allowed_fields:
           if key=="role":
@@ -157,7 +157,7 @@ class ProductManager:
     """Add New Product"""
     try:
       if price<=0:
-        print(f"❌The price of the product must be greater than 0")
+        print("❌The price of the product must be greater than 0")
         return None
 
       product = Product(seller_id,description,category,price,image_url)
@@ -206,6 +206,90 @@ class ProductManager:
     """update Product"""
     if product_id not in self.data["product"]:
       print(f"❌The Product is not found Product ID: {product_id}")
+      return False
+
+    try:
+      prod_data=self.data["products"][product_id]
+
+      allowed_fields = ["title","description","category","price","status"]
+      for key, value in kwargs.items():
+        if key in allowed_fields:
+          if key=="price" and value<=0:
+            print("❌The price of the product must be greater than 0")
+            return False
+
+          if key=="status":
+            statis_map={
+              "Active":ProductStatus.ACTIVE.value,
+              "Sold":ProductStatus.SOLD.value, 
+              "Removed":ProductStatus.REMOVED.value,
+            }
+            prod_data[key]=value
+          else:
+            prod_data[key]=value
+
+      prod_data["updated_at"]=datetime.now().isoformat()
+      self.save_to_file()
+      print(f"✅Updated Product {product_id} is successed")
+      return True
+    except Exception as e:
+      print(f"❌Updated Product {product_id} is failed")
+      return False
+
+  def delete(self, product_id:str)->bool:
+    """Delete Product"""
+    if product_id not in self.data["products"]:
+      print(f"❌The Product is not found Product ID: {product_id}")
+      return False
+
+    try:
+      title=self.data["products"][product_id]["title"]
+      del self.data["prodcuts"][product_id]
+      self.save_to_file()
+      print(f"❌Delet Product {title} is successed")
+      return False
+    except Exception as e:
+      print(f"❌Delet Product is failed {title}")
+      return False
+
+  def list_all(self)->List[Product]:
+    """List All Products"""
+    products=[]
+    for product_id in self.data["products"]:
+        product=self.read(product_id)
+        if product:
+          procut.append(product)
+    return products
+  
+  def list_by_seller(self,seller_id:str)->List[Product]:
+    """List Products From A Specified Seller"""
+    return[p for p in self.list_all() if p.seller_id==seller_id]
+
+  def search(self,keyword:str)->List[Product]:
+    """Search For Products"""
+    keyword_lower=keyword.lower()
+    return[p for p in self.list_all() 
+           if keyword_lower in p.title.lower() or keyword_lower in p.category.lower()]
+
+
+class TransactionManagement:
+  """Transaction Management"""
+  def __init__(self,data_file:str="tramsactopms.jspm"):
+    super().__init__(data_file)
+    if "transactions" not in self.data:
+      self.data["transactions"]={}
+
+  def create(seld,buyer_id:str,seller_id:str,product_id: str,
+            amount:float)->Optional[Transaction]:
+      """Add New Transaction"""
+      try:
+        if amout<=0:
+          promt
+    
+
+
+
+      
 
 
 
